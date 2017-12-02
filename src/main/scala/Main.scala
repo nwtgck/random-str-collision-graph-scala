@@ -26,25 +26,29 @@ object Main {
     import breeze.linalg._
     import breeze.plot._
 
+    val length: Int    = 3
+    val vectorLen: Int = Math.pow(candidateChars.length, length).toInt
+
     val averageTryNums: DenseVector[Double] =
       (1 to times)
         .map { _ =>
-          DenseVector[Double](getTryNums().map(_.toDouble): _*)
+          DenseVector[Double](getTryNums(length).map(_.toDouble): _*)
         }
-        .foldLeft(DenseVector.zeros[Double](46656)) { (s, e) =>
+        .foldLeft(DenseVector.zeros[Double](vectorLen)) { (s, e) =>
           s + e
-        } / times.toDouble // TODO Hard coded
+        } / times.toDouble
 
     val f     = Figure("The number of tries")
     f.visible = false
-    f.subplot(0) += plot((1 to 46656).map(_.toDouble), averageTryNums) // TODO Hard code
+    f.subplot(0) += plot((1 to vectorLen).map(_.toDouble), averageTryNums)
     f.saveas("average_try_nums.png")
   }
 
   def generateOnceTryNums(): Unit = {
     import breeze.linalg._
     import breeze.plot._
-    val tryNumNums = getTryNums()
+    val length: Int = 3
+    val tryNumNums = getTryNums(length)
 
     val f     = Figure("The number of tries")
     f.visible = false
@@ -52,8 +56,7 @@ object Main {
     f.saveas("try_nums.png")
   }
 
-  def getTryNums(): Seq[Int] = {
-    val length : Int = 3
+  def getTryNums(length: Int): Seq[Int] = {
     var usedStr: Set[String]  = Set.empty
     var tryNums: List[Int]    = List.empty
 
