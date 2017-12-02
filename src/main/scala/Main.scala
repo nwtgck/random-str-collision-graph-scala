@@ -12,6 +12,24 @@ object Main {
   def main(args: Array[String]): Unit = {
 
 
+    if(true){
+      generateOnceTryNums()
+    }
+
+  }
+
+  def generateOnceTryNums(): Unit = {
+    import breeze.linalg._
+    import breeze.plot._
+    val tryNumNums = getTryNums()
+
+    val f     = Figure("The number of tries")
+    f.visible = false
+    f.subplot(0) += plot(1 to tryNumNums.length, tryNumNums)
+    f.saveas("try_nums.png")
+  }
+
+  def getTryNums(): Seq[Int] = {
     val length : Int = 3
     var usedStr: Set[String]  = Set.empty
     var tryNums: List[Int]    = List.empty
@@ -19,19 +37,17 @@ object Main {
     // The number of generating = #CANDIDATE ^ STR_LEN
     val generateTimes: Int = Math.pow(candidateChars.length, length).toInt
     for(i <- 1 to generateTimes){
-      println(s"i: ${i}")
       val (randomStr, tryNum) = genNoDupRandomStrAndTryNum(length, usedStr)
       usedStr += randomStr
       tryNums :+= tryNum
     }
 
-    tryNums.foreach(println)
-
+    return tryNums
   }
 
 
   /**
-    * Generate not duplicate random string and the number of trys
+    * Generate not duplicate random string and the number of tries
     * @param length   Length of generated string
     * @param usedStrs Already used strings
     * @return
