@@ -17,7 +17,7 @@ object Main {
     }
 
     if (true){
-      generateAverageTryNums(times=2)
+      generateAverageTryNums(times=10)
     }
 
   }
@@ -31,16 +31,20 @@ object Main {
 
     val averageTryNums: DenseVector[Double] =
       (1 to times)
-        .map { _ =>
+        .map { n =>
           DenseVector[Double](getTryNums(length).map(_.toDouble): _*)
         }
         .foldLeft(DenseVector.zeros[Double](vectorLen)) { (s, e) =>
           s + e
         } / times.toDouble
 
-    val f     = Figure(s"Average(${times}) of the number of tries")
+    val f     = Figure()
     f.visible = false
-    f.subplot(0) += plot((1 to vectorLen).map(_.toDouble), averageTryNums)
+    val p = f.subplot(0)
+    p += plot((1 to vectorLen).map(_.toDouble), averageTryNums)
+    p.title  = s"Average(${times}) of the number of tries"
+    p.xlabel = "n times of generation"
+    p.ylabel = "The number of tries"
     f.saveas(s"average${times}_try_nums.png")
   }
 
