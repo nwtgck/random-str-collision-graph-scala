@@ -4,3 +4,9 @@ This is a study for File ID generation in [trans server](https://github.com/nwtg
 
 
 ![Average of the number of tries](average10_try_nums.png)
+
+
+
+![Magnified Average of the number of tries](magnified_average10_try_nums.png)
+
+NOTE: set xlim (0, 5000)

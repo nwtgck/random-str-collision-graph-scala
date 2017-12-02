@@ -16,13 +16,17 @@ object Main {
       generateOnceTryNums()
     }
 
-    if (true){
+    if (false){
       generateAverageTryNums(times=10)
+    }
+
+    if (true){
+      generateAverageTryNums(times=10, ylimOpt = Some((0, 5000)))
     }
 
   }
 
-  def generateAverageTryNums(times: Int): Unit = {
+  def generateAverageTryNums(times: Int, ylimOpt: Option[(Double, Double)]=None): Unit = {
     import breeze.linalg._
     import breeze.plot._
 
@@ -42,9 +46,14 @@ object Main {
     f.visible = false
     val p = f.subplot(0)
     p += plot((1 to vectorLen).map(_.toDouble), averageTryNums)
-    p.title  = s"Average(${times}) of the number of tries"
+    p.title  = s"Magnified Average(${times}) of the number of tries"
     p.xlabel = "n times of generation"
     p.ylabel = "The number of tries"
+    ylimOpt match {
+      case Some(ylim) => p.ylim = ylim
+      case _ => ()
+    }
+
     f.saveas(s"average${times}_try_nums.png")
   }
 
