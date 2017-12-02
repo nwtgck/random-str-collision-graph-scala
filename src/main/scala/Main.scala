@@ -38,10 +38,10 @@ object Main {
           s + e
         } / times.toDouble
 
-    val f     = Figure("The number of tries")
+    val f     = Figure(s"Average(${times}) of the number of tries")
     f.visible = false
     f.subplot(0) += plot((1 to vectorLen).map(_.toDouble), averageTryNums)
-    f.saveas("average_try_nums.png")
+    f.saveas(s"average${times}_try_nums.png")
   }
 
   def generateOnceTryNums(): Unit = {
