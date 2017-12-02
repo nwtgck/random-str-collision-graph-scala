@@ -12,10 +12,33 @@ object Main {
   def main(args: Array[String]): Unit = {
 
 
-    if(true){
+    if(false){
       generateOnceTryNums()
     }
 
+    if (true){
+      generateAverageTryNums(times=2)
+    }
+
+  }
+
+  def generateAverageTryNums(times: Int): Unit = {
+    import breeze.linalg._
+    import breeze.plot._
+
+    val averageTryNums: DenseVector[Double] =
+      (1 to times)
+        .map { _ =>
+          DenseVector[Double](getTryNums().map(_.toDouble): _*)
+        }
+        .foldLeft(DenseVector.zeros[Double](46656)) { (s, e) =>
+          s + e
+        } / times.toDouble // TODO Hard coded
+
+    val f     = Figure("The number of tries")
+    f.visible = false
+    f.subplot(0) += plot((1 to 46656).map(_.toDouble), averageTryNums) // TODO Hard code
+    f.saveas("average_try_nums.png")
   }
 
   def generateOnceTryNums(): Unit = {
